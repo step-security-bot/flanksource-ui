@@ -12,6 +12,7 @@ import { Tab, Tabs } from "../Tabs/Tabs";
 import FormikAutocompleteDropdown from "./Formik/FormikAutocompleteDropdown";
 import { FormikCodeEditor } from "./Formik/FormikCodeEditor";
 import FormikIconPicker from "./Formik/FormikIconPicker";
+import FormikKeyValueMapField from "./Formik/FormikKeyValueMapField";
 import FormikTextInput from "./Formik/FormikTextInput";
 
 type SpecEditorFormProps = {
@@ -25,7 +26,7 @@ type SpecEditorFormProps = {
   specsMapField: string;
   rawSpecInput?: boolean;
   schemaFilePrefix?: "component" | "canary" | "system" | "scrape_config";
-  resourceInfo: SchemaResourceType;
+  resourceInfo: Pick<SchemaResourceType, "api" | "name" | "table">;
   canEdit?: boolean;
   cantEditMessage?: string;
 };
@@ -113,7 +114,7 @@ export default function SpecEditorForm({
           className="flex flex-col flex-1 overflow-y-auto space-y-4"
           ref={formRef}
         >
-          <div className="flex flex-col flex-1 overflow-y-auto space-y-4 p-4">
+          <div className="flex flex-col flex-1 overflow-y-auto space-y-4 px-4">
             <div className="flex flex-col space-y-2">
               {isFieldSupportedByResourceType("name") && (
                 <FormikTextInput name="name" label="Name" required />
@@ -122,14 +123,11 @@ export default function SpecEditorForm({
                 <FormikIconPicker name="icon" label="Icon" />
               )}
               {isFieldSupportedByResourceType("labels") && (
-                <div className="flex flex-col space-y-2">
-                  <label className="form-label">Labels</label>
-                  <FormikCodeEditor
-                    fieldName="labels"
-                    format="json"
-                    className="h-[100px]"
-                  />
-                </div>
+                <FormikKeyValueMapField
+                  name="labels"
+                  label="Labels"
+                  outputJson
+                />
               )}
               {isFieldSupportedByResourceType("schedule") && (
                 <FormikAutocompleteDropdown

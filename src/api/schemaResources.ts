@@ -11,6 +11,7 @@ import { AVATAR_INFO } from "../constants";
 import { CanaryCheckerDB, ConfigDB, IncidentCommander } from "./axios";
 import { ConfigItem } from "./types/configs";
 import { AgentItem } from "./types/common";
+import { resolve } from "./resolve";
 
 export interface SchemaResourceI {
   id: string;
@@ -33,6 +34,7 @@ export interface SchemaResourceI {
     avatar: string;
     name: string;
   };
+  integration_type: "scrapers" | "topologies" | "logging_backends";
 }
 
 export interface SchemaResourceWithJobStatus extends SchemaResourceI {
@@ -160,4 +162,19 @@ export async function getEventQueueStatus() {
     `failed_push_queue?order=latest_failure.desc`
   );
   return res.data ?? [];
+}
+
+export async function getIntegrationsWithJobStatus(
+  pageIndex: number,
+  pageSize: number
+) {
+  const pagingParams = `&limit=${pageSize}&offset=${pageIndex * pageSize}`;
+
+  const res = await resolve(
+    CanaryCheckerDB.get<SchemaResourceWithJobStatus[] | null>(
+      // todo: add back created_by
+      `integrations_with_status?order=created_at.desc&select=*&deleted_at=is.null${pagingParams}`
+    )
+  );
+  return res;
 }

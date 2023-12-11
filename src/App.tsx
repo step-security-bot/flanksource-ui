@@ -2,13 +2,17 @@ import { AdjustmentsIcon } from "@heroicons/react/solid";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Provider } from "jotai";
 import React, { ReactNode, useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
 import { IconType } from "react-icons";
 import { AiFillHeart } from "react-icons/ai";
 import { BsLink, BsToggles } from "react-icons/bs";
 import { FaBell, FaTasks } from "react-icons/fa";
 import { HiUser } from "react-icons/hi";
 import { ImLifebuoy } from "react-icons/im";
-import { MdOutlineSupportAgent } from "react-icons/md";
+import {
+  MdOutlineIntegrationInstructions,
+  MdOutlineSupportAgent
+} from "react-icons/md";
 import { VscJson } from "react-icons/vsc";
 import {
   BrowserRouter,
@@ -23,8 +27,10 @@ import { withAccessCheck } from "./components/AccessCheck/AccessCheck";
 import AgentsPage from "./components/Agents/AgentPage";
 import AuthProviderWrapper from "./components/Authentication/AuthProviderWrapper";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import { Head } from "./components/Head/Head";
 import { LogsIcon } from "./components/Icons/LogsIcon";
 import { TopologyIcon } from "./components/Icons/TopologyIcon";
+import IntegrationsPage from "./components/Integrations/IntegrationsPage";
 import BootIntercom from "./components/Intercom/BootIntercom";
 import JobsHistorySettingsPage from "./components/JobsHistory/JobsHistorySettingsPage";
 import { SidebarLayout } from "./components/Layout";
@@ -58,7 +64,6 @@ import {
 import { ConnectionsPage } from "./pages/Settings/ConnectionsPage";
 import { EventQueueStatusPage } from "./pages/Settings/EventQueueStatus";
 import { FeatureFlagsPage } from "./pages/Settings/FeatureFlagsPage";
-import { LogBackendsPage } from "./pages/Settings/LogBackendsPage";
 import { TopologyCardPage } from "./pages/TopologyCard";
 import { UsersPage } from "./pages/UsersPage";
 import { ConfigDetailsInsightsPage } from "./pages/config/ConfigDetailsInsightsPage";
@@ -69,8 +74,6 @@ import PlaybookRunsDetailsPage from "./pages/playbooks/PlaybookRunsDetails";
 import { PlaybooksListPage } from "./pages/playbooks/PlaybooksList";
 import { features } from "./services/permissions/features";
 import { stringSortHelper } from "./utils/common";
-import { Head } from "./components/Head/Head";
-import { Toaster } from "react-hot-toast";
 
 export type NavigationItems = {
   name: string;
@@ -190,13 +193,6 @@ const settingsNav: SettingsNavigationItems = {
       resourceName: tables.database
     },
     {
-      name: "Log Backends",
-      href: "/settings/log-backends",
-      icon: LogsIcon,
-      featureName: features["logs"],
-      resourceName: tables.database
-    },
-    {
       name: "Event Queue",
       href: "/settings/event-queue-status",
       icon: FaTasks,
@@ -208,6 +204,13 @@ const settingsNav: SettingsNavigationItems = {
       href: "/settings/agents",
       icon: MdOutlineSupportAgent,
       featureName: features.agents,
+      resourceName: tables.database
+    },
+    {
+      name: "Integrations",
+      href: "/settings/integrations",
+      icon: MdOutlineIntegrationInstructions,
+      featureName: features["settings.integrations"],
       resourceName: tables.database
     }
   ].sort((v1, v2) => stringSortHelper(v1.name, v2.name))
@@ -352,14 +355,6 @@ export function IncidentManagerRoutes({ sidebar }: { sidebar: ReactNode }) {
             "read"
           )}
         />
-        <Route
-          path="log-backends"
-          element={withAccessCheck(
-            <LogBackendsPage />,
-            tables.database,
-            "read"
-          )}
-        />
 
         <Route
           path="event-queue-status"
@@ -375,6 +370,10 @@ export function IncidentManagerRoutes({ sidebar }: { sidebar: ReactNode }) {
             index
             element={withAccessCheck(<AgentsPage />, tables.agents, "read")}
           />
+        </Route>
+
+        <Route path="integrations">
+          <Route index element={<IntegrationsPage />} />
         </Route>
 
         {settingsNav.submenu

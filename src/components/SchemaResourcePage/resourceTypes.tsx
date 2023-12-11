@@ -5,8 +5,6 @@ import { tables } from "../../context/UserAccessContext/permissions";
 import { features } from "../../services/permissions/features";
 import { AlarmIcon } from "../Icons/AlarmIcon";
 import { HealthIcon } from "../Icons/HealthIcon";
-import { SearchInListIcon } from "../Icons/SearchInListIcon";
-import { TopologyIcon } from "../Icons/TopologyIcon";
 
 export type SchemaResourceType = {
   name:
@@ -118,72 +116,72 @@ export const schemaResourceTypes: SchemaResourceType[] = [
       }
     ]
   },
-  {
-    name: "Catalog Scraper",
-    table: "config_scrapers",
-    api: "config-db",
-    icon: SearchInListIcon,
-    featureName: features["settings.config_scraper"],
-    resourceName: tables.config_scrapers,
-    subNav: [
-      {
-        label: "Spec",
-        value: "spec"
-      },
-      {
-        label: "Job History",
-        value: "jobHistory"
-      }
-    ],
-    fields: [
-      {
-        name: "name",
-        default: undefined,
-        hidden: false
-      },
-      {
-        name: "spec",
-        default: {}
-      }
-    ]
-  },
-  {
-    name: "Topology",
-    table: "topologies",
-    api: "canary-checker",
-    icon: TopologyIcon,
-    featureName: features["settings.topology"],
-    resourceName: tables.topologies,
-    subNav: [
-      {
-        label: "Spec",
-        value: "spec"
-      },
-      {
-        label: "Job History",
-        value: "jobHistory"
-      }
-    ],
-    fields: [
-      {
-        name: "name",
-        default: undefined,
-        hidden: false
-      },
-      {
-        name: "namespace",
-        default: "default"
-      },
-      {
-        name: "labels",
-        default: {}
-      },
-      {
-        name: "spec",
-        default: {}
-      }
-    ]
-  },
+  // {
+  //   name: "Catalog Scraper",
+  //   table: "config_scrapers",
+  //   api: "config-db",
+  //   icon: SearchInListIcon,
+  //   featureName: features["settings.config_scraper"],
+  //   resourceName: tables.config_scrapers,
+  //   subNav: [
+  //     {
+  //       label: "Spec",
+  //       value: "spec"
+  //     },
+  //     {
+  //       label: "Job History",
+  //       value: "jobHistory"
+  //     }
+  //   ],
+  //   fields: [
+  //     {
+  //       name: "name",
+  //       default: undefined,
+  //       hidden: false
+  //     },
+  //     {
+  //       name: "spec",
+  //       default: {}
+  //     }
+  //   ]
+  // },
+  // {
+  //   name: "Topology",
+  //   table: "topologies",
+  //   api: "canary-checker",
+  //   icon: TopologyIcon,
+  //   featureName: features["settings.topology"],
+  //   resourceName: tables.topologies,
+  //   subNav: [
+  //     {
+  //       label: "Spec",
+  //       value: "spec"
+  //     },
+  //     {
+  //       label: "Job History",
+  //       value: "jobHistory"
+  //     }
+  //   ],
+  //   fields: [
+  //     {
+  //       name: "name",
+  //       default: undefined,
+  //       hidden: false
+  //     },
+  //     {
+  //       name: "namespace",
+  //       default: "default"
+  //     },
+  //     {
+  //       name: "labels",
+  //       default: {}
+  //     },
+  //     {
+  //       name: "spec",
+  //       default: {}
+  //     }
+  //   ]
+  // },
   {
     name: "Health Check",
     table: "canaries",

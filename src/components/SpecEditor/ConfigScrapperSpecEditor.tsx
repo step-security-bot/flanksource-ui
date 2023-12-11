@@ -16,13 +16,15 @@ import AzureDevopsConfigsFormEditor from "../Forms/Configs/AzureDevopsConfigsFor
 type ConfigScrapperSpecEditorProps = {
   resourceValue?: Record<string, any>;
   onSubmit?: (spec: Record<string, any>) => void;
-  resourceInfo: SchemaResourceType;
+  resourceInfo: Pick<SchemaResourceType, "api" | "table" | "name">;
+  onBack?: () => void;
 };
 
 export default function ConfigScrapperSpecEditor({
   resourceValue,
   onSubmit = () => {},
-  resourceInfo
+  resourceInfo,
+  onBack
 }: ConfigScrapperSpecEditorProps) {
   const configTypes: SpecType[] = useMemo(
     () =>
@@ -209,6 +211,7 @@ export default function ConfigScrapperSpecEditor({
       selectedSpec={selectedSpec}
       canEdit={canEdit}
       cantEditMessage={configCantEditMessage}
+      onBack={onBack}
     />
   );
 }

@@ -11,6 +11,7 @@ import {
 } from "../../../../api/query-hooks/mutations/useSettingsResourcesMutations";
 import { Button } from "../../../Button";
 import { FormikCodeEditor } from "../../../Forms/Formik/FormikCodeEditor";
+import FormikKeyValueMapField from "../../../Forms/Formik/FormikKeyValueMapField";
 import FormikTextInput from "../../../Forms/Formik/FormikTextInput";
 import DeleteResource from "../../../SchemaResourcePage/Delete/DeleteResource";
 import { schemaResourceTypes } from "../../../SchemaResourcePage/resourceTypes";
@@ -160,12 +161,7 @@ export default function TopologyResourceForm({
                 placeholder="Namespace"
                 defaultValue={"default"}
               />
-              <FormikCodeEditor
-                label="Labels"
-                fieldName="labels"
-                format="json"
-                className="flex flex-col h-[100px]"
-              />
+              <FormikKeyValueMapField label="Labels" name="labels" outputJson />
               <FormikCodeEditor
                 className={clsx(
                   "flex flex-col",

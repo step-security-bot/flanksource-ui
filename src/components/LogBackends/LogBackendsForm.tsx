@@ -6,6 +6,7 @@ import {
 } from "../../api/query-hooks/mutations/useSettingsResourcesMutations";
 import { Button } from "../Button";
 import { FormikCodeEditor } from "../Forms/Formik/FormikCodeEditor";
+import FormikKeyValueMapField from "../Forms/Formik/FormikKeyValueMapField";
 import FormikTextInput from "../Forms/Formik/FormikTextInput";
 import DeleteResource from "../SchemaResourcePage/Delete/DeleteResource";
 import { SchemaResourceType } from "../SchemaResourcePage/resourceTypes";
@@ -74,15 +75,7 @@ export default function LogBackendsForm({
         >
           <div className="flex flex-col flex-1 overflow-y-auto gap-4 p-4">
             <FormikTextInput name="name" label="Name" required />
-            <div className="flex flex-col h-auto space-y-2">
-              <FormikCodeEditor
-                fieldName="labels"
-                label="Labels"
-                format="json"
-                className="flex flex-col h-[100px]"
-              />
-            </div>
-
+            <FormikKeyValueMapField label="Labels" name="labels" outputJson />
             <FormikCodeEditor
               label="Spec"
               fieldName="spec"

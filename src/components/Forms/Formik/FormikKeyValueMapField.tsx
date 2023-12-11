@@ -1,9 +1,9 @@
 import { useFormikContext } from "formik";
-import { Button } from "../../Button";
-import { TextInput } from "../../TextInput";
 import { get, set } from "lodash";
 import { useEffect, useState } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
+import { Button } from "../../Button";
+import { TextInput } from "../../TextInput";
 
 type LocalStateValue = {
   key: string;
@@ -13,9 +13,14 @@ type LocalStateValue = {
 type Props = {
   name: string;
   label: string;
+  outputJson?: boolean;
 };
 
-export default function FormikKeyValueMapField({ name, label }: Props) {
+export default function FormikKeyValueMapField({
+  name,
+  label,
+  outputJson = false
+}: Props) {
   const [localValues, setLocalValue] = useState<LocalStateValue[]>([
     { key: "", value: "" }
   ]);
@@ -38,8 +43,11 @@ export default function FormikKeyValueMapField({ name, label }: Props) {
     localValues.forEach(({ key, value }) => {
       set(formValue, key, value);
     });
-    setFieldValue(name, formValue);
-  }, [localValues, name, setFieldValue]);
+    setFieldValue(
+      name,
+      outputJson ? JSON.stringify(formValue ?? {}) : formValue
+    );
+  }, [outputJson, localValues, name, setFieldValue]);
 
   const handleRemove = (index: number) => {
     setLocalValue((prev) => prev.filter((_, i) => i !== index));
