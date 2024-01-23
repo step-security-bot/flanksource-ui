@@ -1,29 +1,33 @@
 import { useMemo } from "react";
-import SpecEditor, { SpecType } from "./SpecEditor";
-import AWSConfigsFormEditor from "../Forms/Configs/AWSConfigsFormEditor";
-import KubernetesConfigsFormEditor from "../Forms/Configs/KubernetesConfigsFormEditor";
 import { FaCog } from "react-icons/fa";
-import { SchemaResourceType } from "../SchemaResourcePage/resourceTypes";
+import AWSConfigsFormEditor from "../Forms/Configs/AWSConfigsFormEditor";
+import AzureConfigsFormEditor from "../Forms/Configs/AzureConfigsFormEditor";
+import AzureDevopsConfigsFormEditor from "../Forms/Configs/AzureDevopsConfigsFormEditor";
+import FileConfigsFormEditor from "../Forms/Configs/FileConfigsFormEditor";
+import GithubActionsConfigsFormEditor from "../Forms/Configs/GithubActionsConfigsFormEditor";
+import HttpConfigsFormEditor from "../Forms/Configs/HttpConfigsFormEditor";
+import KubernetesConfigsFormEditor from "../Forms/Configs/KubernetesConfigsFormEditor";
 import KubernetesFileConfigsFormEditor from "../Forms/Configs/KubernetesFileConfigsFormEditor";
 import SQLConfigsFormEditor from "../Forms/Configs/SQLConfigsFormEditor";
 import TrivyConfigsFormEditor from "../Forms/Configs/TrivyConfigsFormEditor";
-import AzureConfigsFormEditor from "../Forms/Configs/AzureConfigsFormEditor";
-import GithubActionsConfigsFormEditor from "../Forms/Configs/GithubActionsConfigsFormEditor";
-import FileConfigsFormEditor from "../Forms/Configs/FileConfigsFormEditor";
-import HttpConfigsFormEditor from "../Forms/Configs/HttpConfigsFormEditor";
-import AzureDevopsConfigsFormEditor from "../Forms/Configs/AzureDevopsConfigsFormEditor";
+import { SchemaResourceType } from "../SchemaResourcePage/resourceTypes";
+import SpecEditor, { SpecType } from "./SpecEditor";
+
+const resourceInfo: Pick<SchemaResourceType, "api" | "table" | "name"> = {
+  name: "Catalog Scraper",
+  api: "config-db",
+  table: "config_scrapers"
+};
 
 type ConfigScrapperSpecEditorProps = {
   resourceValue?: Record<string, any>;
   onSubmit?: (spec: Record<string, any>) => void;
-  resourceInfo: Pick<SchemaResourceType, "api" | "table" | "name">;
   onBack?: () => void;
 };
 
 export default function ConfigScrapperSpecEditor({
   resourceValue,
   onSubmit = () => {},
-  resourceInfo,
   onBack
 }: ConfigScrapperSpecEditorProps) {
   const configTypes: SpecType[] = useMemo(

@@ -14,7 +14,6 @@ import { FormikCodeEditor } from "../../../Forms/Formik/FormikCodeEditor";
 import FormikKeyValueMapField from "../../../Forms/Formik/FormikKeyValueMapField";
 import FormikTextInput from "../../../Forms/Formik/FormikTextInput";
 import DeleteResource from "../../../SchemaResourcePage/Delete/DeleteResource";
-import { schemaResourceTypes } from "../../../SchemaResourcePage/resourceTypes";
 import FormSkeletonLoader from "../../../SkeletonLoader/FormSkeletonLoader";
 import { createTopologyOptions } from "./AddTopologyOptionsList";
 
@@ -35,6 +34,12 @@ const selectedOptionToSpecMap = new Map<
     "https://raw.githubusercontent.com/flanksource/mission-control-registry/main/topologies/prometheus/prometheus.yaml"
   ]
 ]);
+
+const resourceInfo = {
+  name: "Topology",
+  api: "incident-commander",
+  table: "topologies"
+} as const;
 
 export type TopologyResource = {
   id: string;
@@ -68,10 +73,6 @@ export default function TopologyResourceForm({
   onSuccess = () => {},
   isModal = false
 }: TopologyResourceFormProps) {
-  const resourceInfo = schemaResourceTypes.find(
-    (item) => item.name === "Topology"
-  );
-
   const { data: spec, isLoading: isLoadingSpec } = useQuery({
     queryKey: ["Github", "mission-control-registry", selectedOption],
     queryFn: async () => {
@@ -84,7 +85,7 @@ export default function TopologyResourceForm({
   });
 
   const { mutate: createResource, isLoading: isCreatingResource } =
-    useSettingsCreateResource(resourceInfo!, onSuccess);
+    useSettingsCreateResource(resourceInfo, onSuccess);
 
   const { mutate: updateResource, isLoading: isUpdatingResource } =
     useSettingsUpdateResource(resourceInfo!, topology, isModal);
@@ -165,7 +166,7 @@ export default function TopologyResourceForm({
               <FormikCodeEditor
                 className={clsx(
                   "flex flex-col",
-                  isModal ? "h-[400px]" : "flex-1"
+                  isModal ? "h-[400px]" : "min-h-[400px] flex-1"
                 )}
                 label="Spec"
                 fieldName="spec"
@@ -187,11 +188,7 @@ export default function TopologyResourceForm({
                 {!!topology?.id && (
                   <DeleteResource
                     resourceId={topology?.id}
-                    resourceInfo={
-                      schemaResourceTypes.find(
-                        ({ name }) => name === "Topology"
-                      )!
-                    }
+                    resourceInfo={resourceInfo}
                   />
                 )}
 

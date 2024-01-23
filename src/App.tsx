@@ -30,6 +30,7 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { Head } from "./components/Head/Head";
 import { LogsIcon } from "./components/Icons/LogsIcon";
 import { TopologyIcon } from "./components/Icons/TopologyIcon";
+import EditIntegrationPage from "./components/Integrations/EditIntegrationPage";
 import IntegrationsPage from "./components/Integrations/IntegrationsPage";
 import BootIntercom from "./components/Intercom/BootIntercom";
 import JobsHistorySettingsPage from "./components/JobsHistory/JobsHistorySettingsPage";
@@ -374,6 +375,10 @@ export function IncidentManagerRoutes({ sidebar }: { sidebar: ReactNode }) {
 
         <Route path="integrations">
           <Route index element={<IntegrationsPage />} />
+
+          <Route path=":type" caseSensitive>
+            <Route path=":id" element={<EditIntegrationPage />} />
+          </Route>
         </Route>
 
         {settingsNav.submenu

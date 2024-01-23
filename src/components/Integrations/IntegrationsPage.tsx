@@ -1,13 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getIntegrationsWithJobStatus } from "../../api/schemaResources";
 import { BreadcrumbNav, BreadcrumbRoot } from "../BreadcrumbNav";
 import { Head } from "../Head/Head";
 import { SearchLayout } from "../Layout";
-import IntegrationsList from "./IntegrationsList";
 import AddIntegrationModal from "./Add/AddIntegrationModal";
+import IntegrationsList from "./IntegrationsList";
 
 export default function IntegrationsPage() {
+  const navigate = useNavigate();
+
   const [{ pageIndex, pageSize }, setPageState] = useState({
     pageIndex: 0,
     pageSize: 150
@@ -50,7 +53,9 @@ export default function IntegrationsPage() {
             <IntegrationsList
               data={integrations ?? []}
               onRowClick={(row) => {
-                // do something
+                navigate(
+                  `/settings/integrations/${row.integration_type}/${row.id}`
+                );
               }}
               isLoading={isLoading || isRefetching}
               pageCount={pageCount}
