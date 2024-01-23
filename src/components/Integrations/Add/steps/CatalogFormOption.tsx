@@ -19,15 +19,7 @@ export default function CatalogFormOption({ onSuccess, onBack }: Props) {
 
   return (
     <div className="flex flex-col gap-2 overflow-y-auto h-full">
-      <ConfigScrapperSpecEditor
-        resourceInfo={{
-          table: "config_scrapers",
-          api: "config-db",
-          name: "Catalog Scraper"
-        }}
-        onSubmit={createResource}
-        onBack={onBack}
-      />
+      <ConfigScrapperSpecEditor onSubmit={createResource} onBack={onBack} />
     </div>
   );
 }
